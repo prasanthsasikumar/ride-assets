@@ -13,9 +13,3 @@
   for = "*.html"
   [headers.values]
     Cache-Control = "public, max-age=3600"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
