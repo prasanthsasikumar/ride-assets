@@ -32,7 +32,7 @@ function scanDirectory(dir, folderName) {
 
 const manifest = {
   generated: new Date().toISOString(),
-  baseUrl: 'https://sage-sherbet-7d5a83.netlify.app',
+  baseUrl: 'https://great-india-ride.netlify.app',
   stories: scanDirectory('./media/stories', 'stories'),
   reels: scanDirectory('./media/reels', 'reels'),
   profile: scanDirectory('./media/profile', 'profile')
