@@ -13,149 +13,451 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #0f0f0f;
             color: #fff;
             min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .stats-bar {
+            background: #1a1a1a;
+            padding: 20px;
             display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #333;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .tabs {
+            background: #1a1a1a;
+            padding: 0 20px;
+            display: flex;
+            gap: 5px;
+            border-bottom: 2px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .media-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #333;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .media-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .media-preview {
+            width: 100%;
+            aspect-ratio: 9/16;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .media-preview video,
+        .media-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(102, 126, 234, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .play-icon::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 5px;
+        }
+
+        .media-info {
+            padding: 15px;
+        }
+
+        .media-name {
+            font-size: 13px;
+            color: #fff;
+            font-weight: 500;
+            margin-bottom: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .media-meta {
+            font-size: 11px;
+            color: #666;
+            display: flex;
+            gap: 15px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #333;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
 
-        .container {
-            max-width: 600px;
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        .modal-content video,
+        .modal-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+        }
+
+        .modal-info {
+            color: white;
+            margin-top: 20px;
             text-align: center;
         }
 
-        h1 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .subtitle {
-            font-size: 20px;
-            margin-bottom: 40px;
-            opacity: 0.9;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .status {
-            display: inline-block;
-            background: rgba(76, 175, 80, 0.2);
-            color: #4caf50;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            margin-bottom: 30px;
-            border: 1px solid rgba(76, 175, 80, 0.3);
-        }
-
-        .info {
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .info-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .info-label {
-            font-size: 12px;
-            opacity: 0.7;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-
-        .info-value {
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            word-break: break-all;
-        }
-
-        code {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 13px;
-        }
         @media (max-width: 768px) {
             h1 {
-                font-size: 32px;
+                font-size: 24px;
             }
 
-            .subtitle {
-                font-size: 16px;
+            .stats-bar {
+                gap: 20px;
             }
 
-            .card {
-                padding: 30px 20px;
+            .stat-number {
+                font-size: 24px;
+            }
+
+            .tab {
+                padding: 12px 15px;
+                font-size: 12px;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <header>
         <h1>🏍️ Ride Assets</h1>
-        <p class="subtitle">Media hosting for prasanthsasikumar.com</p>
-        
-        <div class="card">
-            <div class="status">✓ Active</div>
-            
-            <p style="margin-bottom: 20px; opacity: 0.9;">
-                This site hosts media assets for motorcycle ride stories and adventures.
-            </p>
-            
-            <div class="info">
-                <div class="info-item">
-                    <div class="info-label">Base URL</div>
-                    <div class="info-value"><code id="base-url">Loading...</code></div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-label">Available Assets</div>
-                    <div class="info-value">
-                        📁 media/stories/<br>
-                        📁 media/reels/<br>
-                        📁 media/profile/
-                    </div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-label">CORS Status</div>
-                    <div class="info-value">Enabled for cross-origin requests</div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-label">Example Usage</div>
-                    <div class="info-value">
-                        <code id="example-url">Loading...</code>
-                    </div>
-                </div>
-            </div>
+        <p class="subtitle">Media library for motorcycle adventures</p>
+    </header>
+
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-number" id="stat-total">-</div>
+            <div class="stat-label">Total Files</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number" id="stat-stories">-</div>
+            <div class="stat-label">Stories</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number" id="stat-reels">-</div>
+            <div class="stat-label">Reels</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number" id="stat-profile">-</div>
+            <div class="stat-label">Profile</div>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" data-tab="all">All</button>
+        <button class="tab" data-tab="stories">Stories</button>
+        <button class="tab" data-tab="reels">Reels</button>
+        <button class="tab" data-tab="profile">Profile</button>
+    </div>
+
+    <div class="container">
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Loading media library...</p>
+        </div>
+        <div class="gallery" id="gallery"></div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div id="modal-media"></div>
+            <div class="modal-info" id="modal-info"></div>
         </div>
     </div>
 
     <script>
-        // Display current URL
-        const baseUrl = window.location.origin;
-        document.getElementById('base-url').textContent = baseUrl;
-        document.getElementById('example-url').textContent = `${baseUrl}/media/stories/202501/video.mp4`;
+        let manifest = null;
+        let currentTab = 'all';
+
+        async function loadManifest() {
+            try {
+                const response = await fetch('manifest.json');
+                manifest = await response.json();
+                
+                // Update stats
+                document.getElementById('stat-total').textContent = manifest.stats.totalFiles;
+                document.getElementById('stat-stories').textContent = manifest.stats.totalStories;
+                document.getElementById('stat-reels').textContent = manifest.stats.totalReels;
+                document.getElementById('stat-profile').textContent = manifest.stats.totalProfile;
+                
+                // Render gallery
+                renderGallery();
+                
+                // Hide loading
+                document.getElementById('loading').style.display = 'none';
+            } catch (error) {
+                console.error('Error loading manifest:', error);
+                document.getElementById('loading').innerHTML = 
+                    '<p>⚠️ Error loading media library. Please generate manifest.json first.</p>' +
+                    '<p style="margin-top: 10px; font-size: 12px;">Run: <code style="background: #333; padding: 5px 10px; border-radius: 4px;">node generate-manifest.js</code></p>';
+            }
+        }
+
+        function renderGallery() {
+            const gallery = document.getElementById('gallery');
+            let items = [];
+
+            if (currentTab === 'all') {
+                items = [...manifest.stories, ...manifest.reels, ...manifest.profile];
+            } else if (currentTab === 'stories') {
+                items = manifest.stories;
+            } else if (currentTab === 'reels') {
+                items = manifest.reels;
+            } else if (currentTab === 'profile') {
+                items = manifest.profile;
+            }
+
+            if (items.length === 0) {
+                gallery.innerHTML = '<div class="empty">No media files found in this category.</div>';
+                return;
+            }
+
+            gallery.innerHTML = items.map((item, index) => createMediaCard(item, index)).join('');
+        }
+
+        function createMediaCard(item, index) {
+            const sizeInMB = (item.size / 1024 / 1024).toFixed(2);
+            const date = new Date(item.modified).toLocaleDateString();
+            const fullUrl = `${manifest.baseUrl}/${item.path}`;
+            
+            return `
+                <div class="media-card" onclick="openModal('${fullUrl}', '${item.name}', '${item.type}', '${sizeInMB} MB', '${date}')">
+                    <div class="media-preview">
+                        ${item.type === 'video' 
+                            ? `<video src="${fullUrl}#t=0.1" preload="metadata"></video><div class="play-icon"></div>`
+                            : `<img src="${fullUrl}" alt="${item.name}" loading="lazy">`
+                        }
+                    </div>
+                    <div class="media-info">
+                        <div class="media-name">${item.name}</div>
+                        <div class="media-meta">
+                            <span>${sizeInMB} MB</span>
+                            <span>${date}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openModal(url, name, type, size, date) {
+            const modal = document.getElementById('modal');
+            const mediaContainer = document.getElementById('modal-media');
+            const info = document.getElementById('modal-info');
+            
+            if (type === 'video') {
+                mediaContainer.innerHTML = `<video src="${url}" controls autoplay></video>`;
+            } else {
+                mediaContainer.innerHTML = `<img src="${url}" alt="${name}">`;
+            }
+            
+            info.innerHTML = `<strong>${name}</strong><br><small>${size} • ${date}</small>`;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            document.getElementById('modal-media').innerHTML = '';
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+                currentTab = e.target.dataset.tab;
+                renderGallery();
+            });
+        });
+
+        // Close modal on background click
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+
+        // Keyboard shortcut to close modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Load on page load
+        loadManifest();
     </script>
 </body>
 </html>
