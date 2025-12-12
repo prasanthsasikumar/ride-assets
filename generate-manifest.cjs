@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-function scanDirectory(dir, baseUrl = '') {
+function scanDirectory(dir, folderName) {
   const items = [];
   
   function scan(currentPath, relativePath = '') {
@@ -9,7 +9,7 @@ function scanDirectory(dir, baseUrl = '') {
     
     files.forEach(file => {
       const fullPath = path.join(currentPath, file);
-      const relPath = path.join(relativePath, file).replace(/\\/g, '/');
+      const relPath = relativePath ? path.join(relativePath, file).replace(/\\/g, '/') : file;
       const stat = fs.statSync(fullPath);
       
       if (stat.isDirectory()) {
@@ -17,8 +17,7 @@ function scanDirectory(dir, baseUrl = '') {
       } else if (file.match(/\.(mp4|jpg|jpeg|png|gif)$/i)) {
         items.push({
           name: file,
-          path: relPath,
-          url: `${baseUrl}/${relPath}`,
+          path: `media/${folderName}/${relPath}`,
           size: stat.size,
           modified: stat.mtime,
           type: file.endsWith('.mp4') ? 'video' : 'image'
@@ -34,9 +33,9 @@ function scanDirectory(dir, baseUrl = '') {
 const manifest = {
   generated: new Date().toISOString(),
   baseUrl: 'https://sage-sherbet-7d5a83.netlify.app',
-  stories: scanDirectory('./media/stories', 'media/stories'),
-  reels: scanDirectory('./media/reels', 'media/reels'),
-  profile: scanDirectory('./media/profile', 'media/profile')
+  stories: scanDirectory('./media/stories', 'stories'),
+  reels: scanDirectory('./media/reels', 'reels'),
+  profile: scanDirectory('./media/profile', 'profile')
 };
 
 manifest.stats = {

@@ -390,7 +390,9 @@
         function createMediaCard(item, index) {
             const sizeInMB = (item.size / 1024 / 1024).toFixed(2);
             const date = new Date(item.modified).toLocaleDateString();
-            const fullUrl = `${manifest.baseUrl}/${item.path}`;
+            // Use relative path for local testing, or full URL if baseUrl is external
+            const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const fullUrl = isLocal ? item.path : `${manifest.baseUrl}/${item.path}`;
             
             return `
                 <div class="media-card" onclick="openModal('${fullUrl}', '${item.name}', '${item.type}', '${sizeInMB} MB', '${date}')">

@@ -7,3 +7,6 @@ your_instagram_activity/
 Thumbs.db
 *.pyc
 __pycache__/
+
+# Local Netlify folder
+.netlify
