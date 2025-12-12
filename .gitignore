@@ -1,0 +1,9 @@
+# Personal data - don't commit
+personal_information/
+your_instagram_activity/
+
+# System files
+.DS_Store
+Thumbs.db
+*.pyc
+__pycache__/
