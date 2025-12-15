@@ -312,6 +312,10 @@
             <div class="stat-number" id="stat-profile">-</div>
             <div class="stat-label">Profile</div>
         </div>
+        <div class="stat">
+            <div class="stat-number" id="stat-garage">-</div>
+            <div class="stat-label">Garage</div>
+        </div>
     </div>
 
     <div class="tabs">
@@ -319,6 +323,7 @@
         <button class="tab" data-tab="stories">Stories</button>
         <button class="tab" data-tab="reels">Reels</button>
         <button class="tab" data-tab="profile">Profile</button>
+        <button class="tab" data-tab="garage">Garage</button>
     </div>
 
     <div class="container">
@@ -351,6 +356,7 @@
                 document.getElementById('stat-stories').textContent = manifest.stats.totalStories;
                 document.getElementById('stat-reels').textContent = manifest.stats.totalReels;
                 document.getElementById('stat-profile').textContent = manifest.stats.totalProfile;
+                document.getElementById('stat-garage').textContent = manifest.stats.totalGarage ?? 0;
                 
                 // Render gallery
                 renderGallery();
@@ -370,13 +376,15 @@
             let items = [];
 
             if (currentTab === 'all') {
-                items = [...manifest.stories, ...manifest.reels, ...manifest.profile];
+                items = [...manifest.stories, ...manifest.reels, ...manifest.profile, ...(manifest.garage || [])];
             } else if (currentTab === 'stories') {
                 items = manifest.stories;
             } else if (currentTab === 'reels') {
                 items = manifest.reels;
             } else if (currentTab === 'profile') {
                 items = manifest.profile;
+            } else if (currentTab === 'garage') {
+                items = manifest.garage || [];
             }
 
             if (items.length === 0) {
