@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ride Assets - Media Library</title>
+    <title>Media Library - Rides & Garage</title>
     <style>
         * {
             margin: 0;
@@ -13,16 +13,43 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #0f0f0f;
+            background: #111827;
             color: #fff;
             min-height: 100vh;
         }
 
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 30px 20px;
+            position: relative;
+            background: linear-gradient(135deg, #111827 10%, #5b21b6 60%, #ec4899 100%);
+            padding: 34px 20px 54px;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(900px 420px at 50% 0%, rgba(255,255,255,0.12), transparent 55%),
+                radial-gradient(800px 420px at 0% 30%, rgba(168, 85, 247, 0.20), transparent 55%),
+                radial-gradient(800px 420px at 100% 30%, rgba(236, 72, 153, 0.16), transparent 55%);
+            pointer-events: none;
+        }
+
+        .hero-wave {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 72px;
+            color: #111827;
         }
 
         h1 {
@@ -36,14 +63,48 @@
             font-size: 16px;
         }
 
+        .subtitle small {
+            display: block;
+            opacity: 0.85;
+            margin-top: 6px;
+            font-size: 13px;
+        }
+
+        .header-actions {
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.22);
+            background: rgba(17,24,39,0.26);
+            color: rgba(255,255,255,0.95);
+            font-size: 12px;
+            text-decoration: none;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .pill:hover {
+            transform: translateY(-1px);
+            background: rgba(17,24,39,0.34);
+        }
+
         .stats-bar {
-            background: #1a1a1a;
+            background: #0b1220;
             padding: 20px;
             display: flex;
             justify-content: center;
             gap: 40px;
             flex-wrap: wrap;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
         .stat {
@@ -53,33 +114,34 @@
         .stat-number {
             font-size: 32px;
             font-weight: 700;
-            color: #667eea;
+            color: #a855f7;
         }
 
         .stat-label {
             font-size: 12px;
-            color: #888;
+            color: rgba(255,255,255,0.55);
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 5px;
         }
 
         .tabs {
-            background: #1a1a1a;
+            background: #0b1220;
             padding: 0 20px;
             display: flex;
             gap: 5px;
-            border-bottom: 2px solid #333;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             position: sticky;
             top: 0;
             z-index: 100;
+            overflow-x: auto;
         }
 
         .tab {
             padding: 15px 30px;
             background: transparent;
             border: none;
-            color: #888;
+            color: rgba(255,255,255,0.65);
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
@@ -95,14 +157,70 @@
         }
 
         .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
+            color: #ec4899;
+            border-bottom-color: #ec4899;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 30px 20px;
+        }
+
+        .info-panel {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-title {
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.70);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .info-text {
+            color: rgba(255,255,255,0.82);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .endpoint-grid {
+            margin-top: 14px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+        }
+
+        .endpoint {
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.035);
+            padding: 12px;
+        }
+
+        .endpoint a {
+            color: #a855f7;
+            text-decoration: none;
+            font-weight: 700;
+            word-break: break-word;
+        }
+
+        .endpoint a:hover {
+            text-decoration: underline;
+        }
+
+        .endpoint small {
+            display: block;
+            color: rgba(255,255,255,0.58);
+            margin-top: 6px;
+            line-height: 1.4;
         }
 
         .gallery {
@@ -112,18 +230,19 @@
         }
 
         .media-card {
-            background: #1a1a1a;
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
             border-radius: 12px;
             overflow: hidden;
-            border: 1px solid #333;
+            border: 1px solid rgba(255,255,255,0.10);
             transition: all 0.3s;
             cursor: pointer;
+            backdrop-filter: blur(10px);
         }
 
         .media-card:hover {
             transform: translateY(-5px);
-            border-color: #667eea;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-color: rgba(168, 85, 247, 0.55);
+            box-shadow: 0 12px 40px rgba(168, 85, 247, 0.22);
         }
 
         .media-preview {
@@ -148,7 +267,7 @@
             transform: translate(-50%, -50%);
             width: 60px;
             height: 60px;
-            background: rgba(102, 126, 234, 0.9);
+            background: rgba(236, 72, 153, 0.85);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -182,7 +301,7 @@
 
         .media-meta {
             font-size: 11px;
-            color: #666;
+            color: rgba(255,255,255,0.55);
             display: flex;
             gap: 15px;
         }
@@ -194,8 +313,8 @@
         }
 
         .spinner {
-            border: 3px solid #333;
-            border-top: 3px solid #667eea;
+            border: 3px solid rgba(255,255,255,0.15);
+            border-top: 3px solid #a855f7;
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -291,8 +410,22 @@
 </head>
 <body>
     <header>
-        <h1>🏍️ Ride Assets</h1>
-        <p class="subtitle">Media library for motorcycle adventures</p>
+        <div style="position: relative; z-index: 1;">
+            <h1 style="letter-spacing: 0.5px; text-transform: uppercase;">Media Library</h1>
+        <p class="subtitle">
+            Rides and Garage media hosting
+            <small>Served from <strong id="host-label">media.prasanthsasikumar.com</strong> (CORS enabled)</small>
+        </p>
+        <div class="header-actions">
+            <a class="pill" href="/manifest.json">manifest.json</a>
+            <a class="pill" href="/api.json">api.json</a>
+            <a class="pill" href="/media/" onclick="return false;" title="Directory listing depends on host settings">/media/*</a>
+        </div>
+        </div>
+
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="hero-wave" aria-hidden="true">
+            <polygon points="0,100 0,0 100,100" fill="currentColor"></polygon>
+        </svg>
     </header>
 
     <div class="stats-bar">
@@ -301,8 +434,8 @@
             <div class="stat-label">Total Files</div>
         </div>
         <div class="stat">
-            <div class="stat-number" id="stat-stories">-</div>
-            <div class="stat-label">Stories</div>
+            <div class="stat-number" id="stat-rides">-</div>
+            <div class="stat-label">Rides</div>
         </div>
         <div class="stat">
             <div class="stat-number" id="stat-reels">-</div>
@@ -320,13 +453,40 @@
 
     <div class="tabs">
         <button class="tab active" data-tab="all">All</button>
+        <button class="tab" data-tab="rides">Rides</button>
         <button class="tab" data-tab="stories">Stories</button>
         <button class="tab" data-tab="reels">Reels</button>
-        <button class="tab" data-tab="profile">Profile</button>
         <button class="tab" data-tab="garage">Garage</button>
+        <button class="tab" data-tab="profile">Profile</button>
     </div>
 
     <div class="container">
+        <div class="info-panel" id="info-panel">
+            <div class="info-title">What is this?</div>
+            <div class="info-text">
+                This is a static media host for <strong>rides</strong> (stories + reels) and <strong>garage</strong> (vehicles + tours).
+                It exposes a machine-readable <code>manifest.json</code> that other sites can consume, and a simple browser UI for quick discovery.
+            </div>
+            <div class="endpoint-grid">
+                <div class="endpoint">
+                    <a href="/manifest.json">/manifest.json</a>
+                    <small>Generated index of all media files with sizes, timestamps, and categories.</small>
+                </div>
+                <div class="endpoint">
+                    <a href="/api.json">/api.json</a>
+                    <small>Human + machine-friendly description of the available endpoints.</small>
+                </div>
+                <div class="endpoint">
+                    <a href="/media/garage/">/media/garage/*</a>
+                    <small>Garage photos/videos (e.g., vehicles, tours). No bundling in the main Nuxt repo.</small>
+                </div>
+                <div class="endpoint">
+                    <a href="/media/">/media/*</a>
+                    <small>All raw files (stories/reels/profile/garage). Served with long-term caching.</small>
+                </div>
+            </div>
+        </div>
+
         <div class="loading" id="loading">
             <div class="spinner"></div>
             <p>Loading media library...</p>
@@ -350,10 +510,16 @@
             try {
                 const response = await fetch('manifest.json');
                 manifest = await response.json();
+
+                // Host label (best effort)
+                const hostLabel = document.getElementById('host-label');
+                if (hostLabel) {
+                    hostLabel.textContent = (new URL(manifest.baseUrl)).host;
+                }
                 
                 // Update stats
                 document.getElementById('stat-total').textContent = manifest.stats.totalFiles;
-                document.getElementById('stat-stories').textContent = manifest.stats.totalStories;
+                document.getElementById('stat-rides').textContent = (manifest.stats.totalStories || 0) + (manifest.stats.totalReels || 0);
                 document.getElementById('stat-reels').textContent = manifest.stats.totalReels;
                 document.getElementById('stat-profile').textContent = manifest.stats.totalProfile;
                 document.getElementById('stat-garage').textContent = manifest.stats.totalGarage ?? 0;
@@ -366,8 +532,8 @@
             } catch (error) {
                 console.error('Error loading manifest:', error);
                 document.getElementById('loading').innerHTML = 
-                    '<p>⚠️ Error loading media library. Please generate manifest.json first.</p>' +
-                    '<p style="margin-top: 10px; font-size: 12px;">Run: <code style="background: #333; padding: 5px 10px; border-radius: 4px;">node generate-manifest.js</code></p>';
+                    '<p>Error loading media library. Please generate manifest.json first.</p>' +
+                    '<p style="margin-top: 10px; font-size: 12px;">Run: <code style="background: #333; padding: 5px 10px; border-radius: 4px;">node generate-manifest.cjs</code></p>';
             }
         }
 
@@ -377,6 +543,8 @@
 
             if (currentTab === 'all') {
                 items = [...manifest.stories, ...manifest.reels, ...manifest.profile, ...(manifest.garage || [])];
+            } else if (currentTab === 'rides') {
+                items = [...manifest.stories, ...manifest.reels];
             } else if (currentTab === 'stories') {
                 items = manifest.stories;
             } else if (currentTab === 'reels') {
